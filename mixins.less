@@ -1,0 +1,133 @@
+@base_img_url: '/images/';
+
+.bg(@img, @color: transparent){
+  background: url('@{base_img_url}@{img}') no-repeat scroll 0 0 @color;
+}
+
+.shadow(@val) {
+  -webkit-box-shadow: @val;
+     -moz-box-shadow: @val;
+          box-shadow: @val;
+}
+
+.rcorners(@val:5px) {
+  -webkit-border-radius: @val;
+   -khtml-border-radius: @val;
+     -moz-border-radius: @val;
+          border-radius: @val;
+}
+
+.lgradient(@start, @end) {
+  //get the color string without the '#' for styling Microsoft browsers
+  @msstart: `'@{start}'.split('#')[1]`;
+  @msend: `'@{end}'.split('#')[1]`;
+  ///* For old browsers */
+  background-color: @start;
+  ///* For WebKit (Safari, Google Chrome etc) */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(@start), to(@end));
+  background-image: -webkit-linear-gradient(top, @start, @end);
+  ///* For Mozilla/Gecko (Firefox etc) */
+  background-image: -moz-linear-gradient(top, @start, @end);
+  ///* Opera */
+  background-image: -o-linear-gradient(top, @start, @end);
+  ///* W3C */
+  background-image: linear-gradient(@start, @end);
+  /* For Internet Explorer 5.5 - 7 */
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF@{msstart}, endColorstr=#FF@{msend})";
+  /* For Internet Explorer 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF@{msstart}, endColorstr=#FF@{msend})";
+}
+
+.rotate(@deg: 0deg) {
+/*
+  @deg2radians: `(Math.PI*2) / 360`;
+  @msdeg: `'@{deg}'.split('deg')[0]`;
+  @rad: `parseInt(@{msdeg},10) * parseFloat(@{deg2radians})`;
+  @costheta: `Math.cos(@{rad})`;
+  @sintheta: `Math.sin(@{rad})`;
+  @negrad: -1 * @rad;
+  @negsintheta: `Math.sin(@{negrad})`;
+*/
+  -webkit-transform: rotate(@deg);
+     -moz-transform: rotate(@deg);
+      -ms-transform: rotate(@deg);
+       -o-transform: rotate(@deg);
+             //filter: ~"progid:DXImageTransform.Microsoft.Matrix(M11=@{costheta}, M12=@{negsintheta},M21=@{sintheta}, M22=@{costheta}, sizingMethod='auto expand')";
+               //zoom: 1;
+}
+
+.button_common {
+  padding: 5px 4px;
+  text-decoration: none;
+  text-align: center;
+  width: 100px;
+  display: block;
+  margin: -4px auto 0;
+}
+
+.three-d-min(@color, @textcolor: #000) {
+  .lgradient(@color, darken(desaturate(@color, 30%), 20%));
+  color: @textcolor;
+  cursor: pointer;
+  &:hover {
+    background-color: lighten(@color, 10%);
+    .lgradient(lighten(@color, 5%), darken(desaturate(@color, 30%), 10%));
+  }
+}
+
+.three-d-button(@color, @fontsize: 1em, @textcolor: #000) {
+  .three-d-min(@color, @textcolor);
+  position: relative;
+  border: 0 none;
+  font-size: @fontsize;
+  .rcorners;
+  .shadow(1px 1px 3px rgba(0, 0, 0, 0.5));
+  text-shadow: -1px -1px 0 @color;
+  font-family: 'Script1 Rager Hevvy', georgia, serif;
+  letter-spacing: 1px;
+  display: block;
+  &:active {
+    //top: 1px;
+  }
+}
+
+.flat-button(@bg: #178217, @color: #FFF, @fontsize: 1em) {
+  background-color: @bg;
+  color: @color;
+  .rcorners;
+  .shadow(1px 1px 3px rgba(0, 0, 0, 0.5));
+  font-size: @fontsize;
+  letter-spacing: 1px;
+  display: block;
+  &:active {
+    top: 1px;
+  }
+  &:hover {
+    background-color: lighten(desaturate(@bg, 10%), 5%);
+    text-shadow: 1px 1px 3px #333;
+  }
+}
+
+@glossy: url("/images/overlay-button.png") repeat-x scroll 0 0;
+
+.opacity(@val: 0.5) {
+  @msval: @val*100;
+
+  opacity: @val;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=@{msval})";
+  filter: ~"alpha(opacity = @{msval})";
+}
+
+.transparent_overlay(@r:0,@g:0,@b:0,@a:0.5) {
+  //convert to hex, add a '0' in the front and then extract the last 2 characters
+  @msr_: `'0' + (@{r}).toString('16')`;  @msr: `(@{msr_}).slice(-2).toUpperCase()`;
+  @msg_: `'0' + (@{g}).toString('16')`;  @msg: `(@{msg_}).slice(-2).toUpperCase()`;
+  @msb_: `'0' + (@{b}).toString('16')`;  @msb: `(@{msb_}).slice(-2).toUpperCase()`;
+  @msa: `(Math.ceil(@{a}*255)).toString('16').toUpperCase()`;
+
+  background: rgba(@r, @g, @b, @a);
+  ///* For Internet Explorer 5.5 - 7 */
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=#@{msa}@{msr}@{msg}@{msb}, endColorstr=#@{msa}@{msr}@{msg}@{msb})";
+  ///* For Internet Explorer 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#@{msa}@{msr}@{msg}@{msb}, endColorstr=#@{msa}@{msr}@{msg}@{msb})";
+}
