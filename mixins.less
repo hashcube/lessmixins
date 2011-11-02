@@ -39,7 +39,6 @@
 }
 
 .rotate(@deg: 0deg) {
-/*
   @deg2radians: `(Math.PI*2) / 360`;
   @msdeg: `'@{deg}'.split('deg')[0]`;
   @rad: `parseInt(@{msdeg},10) * parseFloat(@{deg2radians})`;
@@ -47,13 +46,13 @@
   @sintheta: `Math.sin(@{rad})`;
   @negrad: -1 * @rad;
   @negsintheta: `Math.sin(@{negrad})`;
-*/
+
   -webkit-transform: rotate(@deg);
      -moz-transform: rotate(@deg);
       -ms-transform: rotate(@deg);
        -o-transform: rotate(@deg);
-             //filter: ~"progid:DXImageTransform.Microsoft.Matrix(M11=@{costheta}, M12=@{negsintheta},M21=@{sintheta}, M22=@{costheta}, sizingMethod='auto expand')";
-               //zoom: 1;
+             filter: ~"progid:DXImageTransform.Microsoft.Matrix(M11=@{costheta}, M12=@{negsintheta},M21=@{sintheta}, M22=@{costheta}, sizingMethod='auto expand')";
+              zoom: 1;
 }
 
 .three-d-min(@color, @textcolor: #000) {
